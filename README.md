@@ -3,4 +3,8 @@ COMP3400 Final Project: Utility Service Provider Application
 Contributors: Brandon Levack, Jacob Bondy, Matteo Pontoni
 
 Dependencies:
-  Graphics Library Currently Undetermined
+  Graphics Library QT
+  PowerShell for building
+
+Build Instructions: In powershell window, in project main directory, execute ./build.ps1
+To execute program: ./uspMain.exe
