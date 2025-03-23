@@ -3,7 +3,7 @@ COMP3400 Final Project: Utility Service Provider Application
 Contributors: Brandon Levack, Jacob Bondy, Matteo Pontoni
 
 Dependencies:
-  Graphics Library QT
+  Graphics Library QT,
   PowerShell for building
 
 Build Instructions: In powershell window, in project main directory, execute ./build.ps1
