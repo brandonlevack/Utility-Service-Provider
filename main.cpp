@@ -6,16 +6,16 @@
 
 int main() {
 
-    Service s;
-    s.toString();
+    Service s();
+    std::cout << s;
 
-    Customer c;
-    c.toString();
+    Customer c();
+    std::cout << c;
 
-    Provider p;
-    p.toString();
+    Provider p();
+    std::cout << p;
 
-    Bill b;
-    b.toString();
+    Bill b();
+    std::cout << b;
 
 }
