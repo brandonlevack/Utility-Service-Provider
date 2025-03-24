@@ -32,6 +32,8 @@ class Service {
         double flatRate;
         double variableRate;
 
+        double unitsUsed;
+
     public:
         Service(std::string super, std::string sub, double flat, double var);       // constructor
 
@@ -43,6 +45,8 @@ class Service {
 
         double getVariableRate() const;
 
+        double getUnitsUsed() const;
+
         void setSuperCategory(std::string super);                       // setters
 
         void setSubCategory(std::string sub);
@@ -50,6 +54,10 @@ class Service {
         void setFlatRate(double rate);
 
         void setVariableRate(double rate);
+
+        void setUnitsUsed(double val);
+
+        void reset();
 
         friend std::ostream& operator<<(std::ostream&os, const Service& service);         // print method
 };

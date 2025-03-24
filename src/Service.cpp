@@ -6,6 +6,7 @@ Service::Service(std::string super, std::string sub, double flat, double var){  
     subCategory = sub;
     flatRate = flat;
     variableRate = var;
+    unitsUsed = 0;
 }
 
 std::string Service::getSuperCategory() const {                                 // getters
@@ -24,6 +25,10 @@ double Service::getVariableRate() const {
     return variableRate;
 }
 
+double Service::getUnitsUsed() const {
+    return unitsUsed;
+}
+
 void Service::setSuperCategory(std::string super){                              // setters
     superCategory = super;
 }
@@ -38,6 +43,14 @@ void Service::setFlatRate(double flat){
 
 void Service::setVariableRate(double var){
     variableRate = var;
+}
+
+void Service::setUnitsUsed(double val){
+    unitsUsed = val;
+}
+
+void Service::reset(){
+    unitsUsed = 0;
 }
 
 std::ostream& operator<<(std::ostream&os, const Service& service){
