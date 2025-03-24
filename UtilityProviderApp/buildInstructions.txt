@@ -1,0 +1,6 @@
+In cmd (in directory with CMakeLists.txt):
+set PATH=C:\Qt\Tools\mingw1310_64\bin;%PATH%
+cmake -G "MinGW Makefiles" -S . -B build
+cd build
+mingw32-make
+
