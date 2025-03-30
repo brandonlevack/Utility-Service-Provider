@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <deque>
 
 /*
 Each individual service has its own service element
@@ -19,8 +20,8 @@ If a Provider sells gas, water, and electric, it will have a list of service obj
 
 class Service {
     private:
-        std::string superCategory;
-        std::string subCategory;
+        std::string superCategory;                  // ie Hydro
+        std::string subCategory;                    // ie Water
 
         /*
         Say water costs $15 / month plus $0.02/L
@@ -33,6 +34,8 @@ class Service {
         double variableRate;
 
         double unitsUsed;
+
+        std::deque<Service> history;
 
     public:
         Service(std::string super, std::string sub, double flat, double var);       // constructor

@@ -50,6 +50,7 @@ void Service::setUnitsUsed(double val){
 }
 
 void Service::reset(){
+    history.push_front(*this);
     unitsUsed = 0;
 }
 
