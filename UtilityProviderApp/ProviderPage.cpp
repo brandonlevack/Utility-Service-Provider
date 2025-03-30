@@ -13,7 +13,6 @@
 std::vector<std::string> ProviderPage::providerHeaders = {
     "Company",
     "Phone Number",
-    "Account Number",
     "Street Address",
     "City",
     "State/Province",

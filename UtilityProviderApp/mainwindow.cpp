@@ -75,7 +75,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     std::vector<std::string> testProvider = {
         "Gas Co",
         "+1 999-999-9999",
-        "123456",
         "123 Main Street",
         "Windsor",
         "Ontario",
@@ -84,11 +83,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     };
     TableModifier::addRow(providerTable, testProvider);
     connect(providerTable, &QTableWidget::cellDoubleClicked, [this, providerTable](int row, int column){
-        QString accountNumber = providerTable->item(row, 2)->text();
+        QString companyName = providerTable->item(row, 0)->text();
 
         //if tab already exists, open it
         for (int i = 0; i < tabWidget->count(); i++){
-            if (tabWidget->tabText(i) == accountNumber){
+            if (tabWidget->tabText(i) == companyName){
                 tabWidget->setCurrentIndex(i);
                 return;
             }
@@ -104,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
         QWidget* newProviderPage = ProviderPage::createPage(inputs, columnCount);
 
-        int temp = tabWidget->addTab(newProviderPage, accountNumber);
+        int temp = tabWidget->addTab(newProviderPage, companyName);
         tabWidget->setCurrentIndex(temp);
     });
 
