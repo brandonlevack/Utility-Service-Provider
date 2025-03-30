@@ -8,3 +8,5 @@ Dependencies:
 
 Build Instructions: In powershell window, in project main directory, execute ./build.ps1
 To execute program: ./uspMain.exe
+
+Last Step: add a list of customers for each Provider.
