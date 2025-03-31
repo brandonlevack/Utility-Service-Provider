@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -30,6 +32,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ProviderPage.h
         ProviderPage.h
         ProviderPage.cpp
+        ../src/Bill.cpp ../src/Bill.h ../src/Customer.cpp ../src/Customer.h ../src/Provider.cpp ../src/Provider.h ../src/Service.cpp ../src/Service.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET UtilityProviderApp APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

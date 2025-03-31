@@ -1,4 +1,6 @@
 #include "CustomerPage.h"
+#include "TableModifier.h"
+#include "../src/Customer.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFormLayout>
@@ -20,7 +22,7 @@ std::vector<std::string> CustomerPage::customerHeaders = {
     "Country"
 };
 
-QWidget* CustomerPage::createPage(QString inputs[], int numColumns){
+QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
     // Create the main container widget
     QWidget* pageWidget = new QWidget();
     QVBoxLayout* mainLayout = new QVBoxLayout(pageWidget);
@@ -31,9 +33,17 @@ QWidget* CustomerPage::createPage(QString inputs[], int numColumns){
     QWidget* scrollContent = new QWidget();
     QFormLayout* formLayout = new QFormLayout(scrollContent);
 
+    int numColumns = table->columnCount();
+
+    QString inputs[numColumns-1];
+
+    for (int i = 0; i < numColumns-1; i++){
+        inputs[i] = table->item(row, i)->text();
+    }
+
     // Create and add all the customer information fields
     QVector<QLineEdit*> fieldEdits; // Store references to all line edits
-    for (int i = 0; i < numColumns && i < customerHeaders.size(); ++i) {
+    for (int i = 0; i < numColumns-1 && i < customerHeaders.size(); ++i) {
         QLabel* label = new QLabel(QString::fromStdString(customerHeaders[i] + ":"));
         QLineEdit* lineEdit = new QLineEdit(inputs[i]);
         lineEdit->setReadOnly(true); // Start in read-only mode
@@ -46,14 +56,19 @@ QWidget* CustomerPage::createPage(QString inputs[], int numColumns){
     QLabel* billsLabel = new QLabel("Customer Bills:");
     QComboBox* billsComboBox = new QComboBox();
     billsComboBox->addItem("Select a bill...");
-    billsComboBox->setEnabled(false); // Disabled in view mode
+    billsComboBox->setEnabled(true);
 
-    // TODO: Populate the combo box with actual bills data
-    // billsComboBox->clear();
-    // foreach (const Bill &bill, customerBills) {
-    //     billsComboBox->addItem(bill.displayString(), bill.id());
-    // }
+    Customer* c = static_cast<Customer*>(table->item(row, numColumns-1)->data(Qt::UserRole).value<void*>());
+
     formLayout->addRow(billsLabel, billsComboBox);
+
+    billsComboBox->clear();
+    int loc = 0;
+    for (auto b : c->getBills()){
+        QString billText = QString("$%1").arg(b.getTotal(), 0, 'f', 2);
+        billsComboBox->addItem(billText, loc);
+        loc++;
+    }
 
     scrollArea->setWidget(scrollContent);
     mainLayout->addWidget(scrollArea);
@@ -75,7 +90,6 @@ QWidget* CustomerPage::createPage(QString inputs[], int numColumns){
         for (auto lineEdit : fieldEdits) {
             lineEdit->setReadOnly(false);
         }
-        billsComboBox->setEnabled(true);
 
         // Update button states
         editButton->setEnabled(false);
@@ -88,7 +102,6 @@ QWidget* CustomerPage::createPage(QString inputs[], int numColumns){
         for (auto lineEdit : fieldEdits) {
             lineEdit->setReadOnly(true);
         }
-        billsComboBox->setEnabled(false);
 
         // Update button states
         editButton->setEnabled(true);
@@ -104,4 +117,26 @@ QWidget* CustomerPage::createPage(QString inputs[], int numColumns){
     });
 
     return pageWidget;
+}
+
+QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
+    QTableWidget* customerTable = new QTableWidget();
+
+    TableModifier::initTable(customerTable, CustomerPage::customerHeaders);
+
+    for (const auto &c : customers){
+        /*
+         * create create a vector of strings (items) with following order:
+         * First Name,
+         * Last Name,
+         * Street Address,
+         * City,
+         * State/Province,
+         * Postal Code,
+         * Country
+         *
+         * Then call TableModifier::addRow(customerTable, items)
+         */
+    }
+    return customerTable;
 }

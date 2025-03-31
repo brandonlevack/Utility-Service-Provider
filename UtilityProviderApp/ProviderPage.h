@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QString>
+#include "../src/Provider.h"
 
 class ProviderPage
 {
@@ -11,8 +12,9 @@ public:
 
     static std::vector<std::string> providerHeaders;
 
-    // Static method to create and return the customer page as a QWidget
-    static QWidget* createPage(QString inputs[], int numColumns);
+    static QWidget* createPage(QTableWidget* table, int& row);
+
+    static QTableWidget* createTable(std::list<Provider> providers);
 
 };
 
