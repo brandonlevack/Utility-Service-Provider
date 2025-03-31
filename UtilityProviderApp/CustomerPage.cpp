@@ -64,12 +64,74 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
     formLayout->addRow(billsLabel, billsComboBox);
 
     billsComboBox->clear();
-    int loc = 0;
+    int loc = 1;
+    billsComboBox->addItem("Please Select a Bill");
     for (auto b : c->getBills()){
         QString billText = QString("$%1").arg(b.getTotal(), 0, 'f', 2);
         billsComboBox->addItem(billText, loc);
         loc++;
     }
+
+    // Create a container for bill details (initially empty)
+    QWidget* billDetailsWidget = new QWidget();
+    QVBoxLayout* billDetailsLayout = new QVBoxLayout(billDetailsWidget);
+    formLayout->addRow(billDetailsWidget); // Add to main form
+
+    // Connect combo box signal
+    QObject::connect(billsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        [=](int index) {
+            qDebug() << index;
+
+        // Clear previous details
+        QLayoutItem* child;
+        while ((child = billDetailsLayout->takeAt(0))) {
+            delete child->widget();
+            delete child;
+        }
+
+        if (index < 1 || index >= c->getBills().size() + 1) return;
+
+        // Get selected bill
+        const Bill& currentBill = c->getBills()[index-1];
+
+
+        qDebug() << currentBill.getServices().size();
+        // Add service details
+        for (auto& s : currentBill.getServices()) {
+            QWidget* serviceWidget = new QWidget();
+            QHBoxLayout* serviceLayout = new QHBoxLayout(serviceWidget);
+
+            // Service name
+            QLabel* serviceName = new QLabel(
+                QString("%1: %2")
+                    .arg(QString::fromStdString(s.getSuperCategory()))
+                    .arg(QString::fromStdString(s.getSubCategory()))
+            );
+
+            // Service calculation
+            double serviceTotal = s.getFlatRate() + s.getVariableRate() * s.getUnitsUsed();
+            QLabel* serviceCalc = new QLabel(
+                QString("%1 + %2 * %3 = %4")
+                    .arg(s.getFlatRate(), 0, 'f', 2)
+                    .arg(s.getVariableRate(), 0, 'f', 2)
+                    .arg(s.getUnitsUsed(), 0, 'f', 2)
+                    .arg(serviceTotal, 0, 'f', 2)
+            );
+
+            serviceLayout->addWidget(serviceName);
+            serviceLayout->addStretch();
+            serviceLayout->addWidget(serviceCalc);
+            billDetailsLayout->addWidget(serviceWidget);
+        }
+
+        // Add bill total
+        QLabel* billTotalLabel = new QLabel(
+            QString("\nTotal: $%1").arg(currentBill.getTotal(), 0, 'f', 2)
+        );
+        billTotalLabel->setStyleSheet("font-weight: bold");
+        billDetailsLayout->addWidget(billTotalLabel);
+        }
+    );
 
     scrollArea->setWidget(scrollContent);
     mainLayout->addWidget(scrollArea);

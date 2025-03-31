@@ -44,12 +44,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     c->setAccountNumber("12345");
     Service s("Hydro", "Water", 15.0, 0.2);
     c->addService(s);
-    // c->billCustomer();
-    s.setUnitsUsed(10);
-    c->addService(s);
-    // c->billCustomer();
+    c->billCustomer();
+    Service s2("Hydro", "Gas", 20.0, 0.32);
+    s2.setUnitsUsed(10);
+    c->addService(s2);
+    c->billCustomer();
 
-    // TableModifier::addRow(customerTable, testCustomer, c);
+    TableModifier::addRow(customerTable, testCustomer, c);
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();
 
