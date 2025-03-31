@@ -93,6 +93,10 @@ void Customer::billCustomer(){
     Customer::addBill(bill);                                    // add the bill as our most recent bill for the customer
 }
 
+Service& Customer::changeService(int index){
+    return services[index];                                     // no out of index check, be cautions here
+}
+
 std::ostream& operator<<(std::ostream&os, const Customer& customer){
     os << "Name: " << customer.getName() << " Address: " <<customer.getAddress() << std::endl;
     os << "Services: " << std::endl;

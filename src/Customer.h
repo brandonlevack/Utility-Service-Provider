@@ -67,6 +67,8 @@ class Customer {
 
         void addBill(Bill bill);            // add to bills
 
+        Service& changeService(int index);           // return a reference to the services such that the services in Customer can be modified
+
         friend std::ostream& operator<<(std::ostream&os, const Customer& customer);
 
         void billCustomer();

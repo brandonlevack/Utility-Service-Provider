@@ -21,6 +21,8 @@ class Bill {                                // PASS BY REFERENCE HERE
 
         double getTotal() const;
 
+        std::vector<Service> getServices() const;
+
         friend std::ostream& operator<<(std::ostream&os, const Bill& bill);
 
 };

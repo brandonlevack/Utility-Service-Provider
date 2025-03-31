@@ -21,6 +21,10 @@ double Bill::getTotal() const {
     return total;
 }
 
+std::vector<Service> Bill::getServices() const {
+    return services;
+}
+
 std::ostream& operator<<(std::ostream&os, const Bill& bill){
     os << "Status: " << bill.getStatus() << " Subtotal: " << bill.getTotal() << std::endl;
     return os;
