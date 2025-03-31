@@ -7,6 +7,10 @@ std::string Customer::getName() const {                         // getters
     return Customer::getFirstName() + " " + Customer::getLastName();
 }
 
+std::string Customer::getAccountNumber() const {
+    return accNumber;
+}
+
 std::string Customer::getAddress() const {
     return Customer::getStreetAddress() + ", " + Customer::getCity() + ", " + Customer::getProvince() + ", " + Customer::getPostalCode() + ", " + Customer::getCountry();
 }

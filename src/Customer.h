@@ -30,6 +30,8 @@ class Customer {
         std::string getFirstName() const;
 
         std::string getLastName() const;
+
+        std::string getAccountNumber() const;
         
         std::string getAddress() const;
 
