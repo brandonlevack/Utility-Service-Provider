@@ -125,21 +125,9 @@ QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
 
     TableModifier::initTable(customerTable, CustomerPage::customerHeaders);
 
-    for (const auto &c : customers){
-        /*
-         * create create a vector of strings (items) with following order:
-         * First Name,
-         * Last Name,
-         * Street Address,
-         * City,
-         * State/Province,
-         * Postal Code,
-         * Country
-         *
-         * Then call TableModifier::addRow(customerTable, items)
-         */
+    for ( auto &c : customers){
+        std::vector<std::string> items;
 
-        std::vector<string> items;
         items.push_back(c.getFirstName());
         items.push_back(c.getLastName());
         items.push_back(c.getStreetAddress());
@@ -148,7 +136,7 @@ QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
         items.push_back(c.getPostalCode());
         items.push_back(c.getCountry());
 
-        TableModifier::addRow(customerTable, items)
+        TableModifier::addRow(customerTable, items, &c);
     }
     return customerTable;
 }
