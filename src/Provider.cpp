@@ -3,13 +3,11 @@
 
 Provider::Provider(std::string name) {
     this->name = name;
-    address = "Undeclared";
     phoneNumber = "Undeclared";
 }
 
-Provider::Provider(std::string name, std::string address, std::string phoneNumber, std::vector<Service> services) {
+Provider::Provider(std::string name, std::string phoneNumber, std::vector<Service> services) {
     this->name = name;
-    this->address = address;
     this->phoneNumber = phoneNumber;
     this->services = services;
 }
@@ -19,7 +17,27 @@ std::string Provider::getName() const {                    // getters
 }
 
 std::string Provider::getAddress() const {
-    return address;
+    return Provider::getStreetAddress() + ", " + Provider::getCity() + ", " + Provider::getProvince() + ", " + Provider::getPostalCode() + ", " + Provider::getCountry();
+}
+
+std::string Provider::getStreetAddress() const {
+    return streetAddress;
+}
+
+std::string Provider::getCity() const {
+    return city;
+}
+
+std::string Provider::getProvince() const {
+    return province;
+}
+
+std::string Provider::getPostalCode() const {
+    return postalCode;
+}
+
+std::string Provider::getCountry() const {
+    return country;
 }
 
 std::string Provider::getPhoneNumber() const {
@@ -34,8 +52,24 @@ void Provider::setName(std::string newName){                // setters
     name = newName;
 }
 
-void Provider::setAddress(std::string newAddress){
-    address = newAddress;
+void Provider::setStreetAddress(std::string ad){
+    streetAddress = ad;
+}
+
+void Provider::setCity(std::string c){
+    city = c;
+}
+
+void Provider::setProvince(std::string p){
+    province = p;
+}
+
+void Provider::setPostalCode(std::string p){
+    postalCode = p;
+}
+
+void Provider::setCountry(std::string c){
+    country = c;
 }
 
 void Provider::setPhoneNumber(std::string newNumber){

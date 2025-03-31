@@ -9,7 +9,11 @@
 class Provider {
     private:
         std::string name;                           // straightforward
-        std::string address;
+        std::string streetAddress;
+        std::string city;
+        std::string province;
+        std::string postalCode;
+        std::string country;
         std::string phoneNumber;
 
         std::vector<Service> services;              // vector of Services stores each providers available services. Service Class will handle subcategories
@@ -18,11 +22,21 @@ class Provider {
 
         Provider(std::string name);                     // constructors
 
-        Provider(std::string name, std::string address, std::string phoneNumber, std::vector<Service> services);
+        Provider(std::string name, std::string phoneNumber, std::vector<Service> services);
 
         std::string getName() const;                    // getters
 
         std::string getAddress() const;
+
+        std::string getStreetAddress() const;
+
+        std::string getCity() const;
+
+        std::string getProvince() const;
+
+        std::string getPostalCode() const;
+
+        std::string getCountry() const;
 
         std::string getPhoneNumber() const;
 
@@ -30,7 +44,15 @@ class Provider {
 
         void setName(std::string newName);              // setters
 
-        void setAddress(std::string newAddress);
+        void setStreetAddress(std::string ad);
+
+        void setCity(std::string c);
+
+        void setProvince(std::string p);
+
+        void setPostalCode(std::string p);
+
+        void setCountry(std::string c);
 
         void setPhoneNumber(std::string newNumber);
 
