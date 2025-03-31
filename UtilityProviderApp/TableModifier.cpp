@@ -6,18 +6,8 @@ void TableModifier::initTable(QTableWidget* table, std::vector<std::string> head
     for (std::string i : headers) {
         TableModifier::addColumn(table, i);
     }
-}
-
-void TableModifier::addRow(QTableWidget* table, std::vector<std::string> items) {
-    int row = table->rowCount();
-    table->insertRow(row);
-    int count = 0;
-    for (std::string i : items) {
-        QTableWidgetItem* item = new QTableWidgetItem(QString::fromStdString(i));
-        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-        table->setItem(row, count, item);
-        count++;
-    }
+    TableModifier::addColumn(table, "Object");
+    table->hideColumn(table->columnCount()-1);
 }
 
 void TableModifier::addColumn(QTableWidget* table, std::string header) {

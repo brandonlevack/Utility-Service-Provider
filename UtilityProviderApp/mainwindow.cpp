@@ -3,12 +3,11 @@
 #include "TableModifier.h"
 #include "CustomerPage.h"
 #include "ProviderPage.h"
-#include <QWidget>
+#include "../src/Service.h"
+
+
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QTableWidget>
-#include <string>
-#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -39,7 +38,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         "A1B2C3",
         "Canada"
     };
-    TableModifier::addRow(customerTable, testCustomer);
+
+    Customer* c = new Customer("John", "1234");
+    Service s("Hydro", "Water", 15.0, 0.2);
+    c->addService(s);
+    c->billCustomer();
+    s.setUnitsUsed(10);
+    c->addService(s);
+    c->billCustomer();
+
+    TableModifier::addRow(customerTable, testCustomer, c);
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();
 
@@ -51,15 +59,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
             }
         }
 
-        int columnCount = customerTable-> columnCount();
-
-        QString inputs[columnCount];
-
-        for (int i = 0; i < columnCount; i++){
-            inputs[i] = customerTable->item(row, i)->text();
-        }
-
-        QWidget* newCustomerPage = CustomerPage::createPage(inputs, columnCount);
+        QWidget* newCustomerPage = CustomerPage::createPage(customerTable, row);
 
         int temp = tabWidget->addTab(newCustomerPage, accountNumber);
         tabWidget->setCurrentIndex(temp);
@@ -81,7 +81,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         "A1B2C3",
         "Canada"
     };
-    TableModifier::addRow(providerTable, testProvider);
+
+    Provider* p = new Provider("Gas Co");
+    (*p).addService(s);
+
+    TableModifier::addRow(providerTable, testProvider, p);
     connect(providerTable, &QTableWidget::cellDoubleClicked, [this, providerTable](int row, int column){
         QString companyName = providerTable->item(row, 0)->text();
 
@@ -93,15 +97,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
             }
         }
 
-        int columnCount = providerTable-> columnCount();
-
-        QString inputs[columnCount];
-
-        for (int i = 0; i < columnCount; i++){
-            inputs[i] = providerTable->item(row, i)->text();
-        }
-
-        QWidget* newProviderPage = ProviderPage::createPage(inputs, columnCount);
+        QWidget* newProviderPage = ProviderPage::createPage(providerTable, row);
 
         int temp = tabWidget->addTab(newProviderPage, companyName);
         tabWidget->setCurrentIndex(temp);

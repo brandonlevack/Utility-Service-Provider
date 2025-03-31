@@ -9,6 +9,9 @@
 #include <QPushButton>
 #include <QVector>
 #include <QListWidget>
+#include <sstream>
+
+#include "TableModifier.h"
 
 std::vector<std::string> ProviderPage::providerHeaders = {
     "Company",
@@ -20,7 +23,7 @@ std::vector<std::string> ProviderPage::providerHeaders = {
     "Country"
 };
 
-QWidget* ProviderPage::createPage(QString inputs[], int numColumns) {
+QWidget* ProviderPage::createPage(QTableWidget* table, int& row) {
     // Create the main container widget
     QWidget* pageWidget = new QWidget();
     QVBoxLayout* mainLayout = new QVBoxLayout(pageWidget);
@@ -30,6 +33,14 @@ QWidget* ProviderPage::createPage(QString inputs[], int numColumns) {
     scrollArea->setWidgetResizable(true);
     QWidget* scrollContent = new QWidget();
     QFormLayout* formLayout = new QFormLayout(scrollContent);
+
+    int numColumns = table-> columnCount();
+
+    QString inputs[numColumns];
+
+    for (int i = 0; i < numColumns; i++){
+        inputs[i] = table->item(row, i)->text();
+    }
 
     // Create and add all the provider information fields
     QVector<QLineEdit*> fieldEdits; // Store references to all line edits
@@ -42,19 +53,23 @@ QWidget* ProviderPage::createPage(QString inputs[], int numColumns) {
         formLayout->addRow(label, lineEdit);
     }
 
-    // Add the services list (using QListWidget instead of QComboBox)
     QLabel* servicesLabel = new QLabel("Services Provided:");
     QListWidget* servicesList = new QListWidget();
-    servicesList->setEnabled(false); // Disabled in view mode
-    servicesList->setSelectionMode(QAbstractItemView::MultiSelection);
 
-    // TODO: Populate the list with actual services data
-    // servicesList->clear();
-    // foreach (const Service &service, providerServices) {
-    //     QListWidgetItem* item = new QListWidgetItem(service.name());
-    //     item->setData(Qt::UserRole, service.id());
-    //     servicesList->addItem(item);
-    // }
+    Provider *p = static_cast<Provider*>(table->item(row, numColumns-1)->data(Qt::UserRole).value<void*>());
+
+    int loc = 0;
+    for (auto s : p->getServices()){
+        std::ostringstream oss;
+        oss << s;
+
+        // Add to list with index storage
+        QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(oss.str()));
+        item->setData(Qt::UserRole, QVariant(static_cast<int>(loc)));  // Store index as int
+        servicesList->addItem(item);
+        loc++;
+    }
+
     formLayout->addRow(servicesLabel, servicesList);
 
     scrollArea->setWidget(scrollContent);
@@ -77,7 +92,6 @@ QWidget* ProviderPage::createPage(QString inputs[], int numColumns) {
         for (auto lineEdit : fieldEdits) {
             lineEdit->setReadOnly(false);
         }
-        servicesList->setEnabled(true);
 
         // Update button states
         editButton->setEnabled(false);
@@ -90,7 +104,6 @@ QWidget* ProviderPage::createPage(QString inputs[], int numColumns) {
         for (auto lineEdit : fieldEdits) {
             lineEdit->setReadOnly(true);
         }
-        servicesList->setEnabled(false);
 
         // Update button states
         editButton->setEnabled(true);
@@ -108,4 +121,26 @@ QWidget* ProviderPage::createPage(QString inputs[], int numColumns) {
     });
 
     return pageWidget;
+}
+
+QTableWidget* ProviderPage::createTable(std::list<Provider> providers){
+    QTableWidget* providerTable = new QTableWidget();
+
+    TableModifier::initTable(providerTable, ProviderPage::providerHeaders);
+
+    for (const auto &p : providers){
+        /*
+         * create create a vector of strings (items) with following order:
+         * Company Name,
+         * Phone Number,
+         * Street Address,
+         * City,
+         * State/Province,
+         * Postal Code,
+         * Country
+         *
+         * Then call TableModifier::addRow(providerTable, items)
+         */
+    }
+    return providerTable;
 }
