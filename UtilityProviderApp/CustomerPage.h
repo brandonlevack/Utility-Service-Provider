@@ -15,10 +15,7 @@ public:
     // Static method to create and return the customer page as a QWidget
     static QWidget* createPage(QTableWidget* table, int& row);
 
-    static QTableWidget* createTable(std::list<Customer> customers);
-
-    // Static method to update customer data in the table
-    static void updateCustomerData(QTableWidget* customerTable, int row, int column, const QString& newValue);
+    static QTableWidget* createTable(std::vector<Customer>* customers);
 };
 
 #endif // CUSTOMERPAGE_H

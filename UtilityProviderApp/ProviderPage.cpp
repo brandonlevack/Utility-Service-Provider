@@ -142,12 +142,12 @@ QWidget* ProviderPage::createPage(QTableWidget* table, int& row) {
     return pageWidget;
 }
 
-QTableWidget* ProviderPage::createTable(std::list<Provider> providers){
+QTableWidget* ProviderPage::createTable(std::vector<Provider>* providers){
     QTableWidget* providerTable = new QTableWidget();
 
     TableModifier::initTable(providerTable, ProviderPage::providerHeaders);
 
-    for (auto &p : providers){
+    for (auto &p : *providers){
 
         std::vector<std::string> items;
 
