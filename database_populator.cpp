@@ -67,6 +67,7 @@ private:
 
 public:
     DatabasePopulator(const char* dbPath) {
+        std::remove(dbPath);  // Delete existing database
         if (sqlite3_open(dbPath, &db) != SQLITE_OK) {
             std::cerr << "Cannot open database: " << sqlite3_errmsg(db) << std::endl;
             return;
@@ -74,9 +75,20 @@ public:
 
         std::ifstream schemaFile("newfile.sql");
         if (schemaFile) {
-            std::stringstream buffer;
-            buffer << schemaFile.rdbuf();
-            executeSQL(buffer.str());
+            std::string line;
+            std::string currentStatement;
+            while (std::getline(schemaFile, line)) {
+                // Skip empty lines and comments
+                if (line.empty() || line.substr(0, 2) == "--") continue;
+                
+                currentStatement += line + " ";
+                
+                // If we find a semicolon, execute the statement
+                if (line.find(';') != std::string::npos) {
+                    executeSQL(currentStatement);
+                    currentStatement.clear();
+                }
+            }
         } else {
             std::cerr << "Could not open newfile.sql" << std::endl;
         }
@@ -150,7 +162,7 @@ public:
         }
 
         for (size_t customer = 1; customer <= customerNames.size(); customer++) {
-            for (size_t serviceId = 1; serviceId <= services.size() * providerNames.size(); serviceId++) {
+            for (size_t serviceId = 1; serviceId <= services.size(); serviceId++) {
                 for (int month = 0; month < 6; month++) {
                     int providerId = providerDist(gen);
                     int usageAmount = usage(gen);
