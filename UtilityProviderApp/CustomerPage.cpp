@@ -79,7 +79,6 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
 
     QObject::connect(billsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
      [=](int index) {
-        qDebug() << index;
 
          // Clear previous details
          QLayoutItem* child;
@@ -92,16 +91,13 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
          if (index <= 0 || index > c->getBills().size()) {
              return;
          }
-        qDebug() << "working";
 
         // Get selected bill (index 0 is default, so subtract 1)
         Bill currentBill = c->getBills()[index - 1];
         auto test = currentBill.getServices();
-        qDebug() << "working";
 
         // Add service details
          for (auto s : currentBill.getServices()) {
-             qDebug() << "working";
              QWidget* serviceWidget = new QWidget();
              QHBoxLayout* serviceLayout = new QHBoxLayout(serviceWidget);
 
@@ -127,14 +123,22 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
             serviceLayout->addWidget(serviceCalc);
             billDetailsLayout->addWidget(serviceWidget);
         }
-        qDebug() << "past loop";
 
-        // Add bill total
         QLabel* billTotalLabel = new QLabel(
             QString("\nTotal: $%1").arg(currentBill.getTotal(), 0, 'f', 2)
             );
+
         billTotalLabel->setStyleSheet("font-weight: bold;");
         billDetailsLayout->addWidget(billTotalLabel);
+
+        QLabel* statusLabel = new QLabel(
+            QString("\nStatus: <span style='color:%1;'>%2</span>")
+                .arg(currentBill.getStatus() == "Unpaid" ? "#F00" : "#0F0")
+                .arg(QString::fromStdString(currentBill.getStatus()))
+            );
+        statusLabel->setStyleSheet("font-weight: bold;");
+        billDetailsLayout->addWidget(statusLabel);
+
     });
 
     scrollArea->setWidget(scrollContent);
