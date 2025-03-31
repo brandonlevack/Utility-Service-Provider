@@ -48,7 +48,18 @@ QWidget* ProviderPage::createPage(QTableWidget* table, int& row) {
     for (int i = 0; i < numColumns && i < providerHeaders.size(); ++i) {
         QLabel* label = new QLabel(QString::fromStdString(providerHeaders[i] + ":"));
         QLineEdit* lineEdit = new QLineEdit(inputs[i]);
-        lineEdit->setReadOnly(true); // Start in read-only mode
+        if (providerHeaders[i] == "Company") {
+            lineEdit->setEnabled(false);
+            lineEdit->setStyleSheet(
+                "QLineEdit {"
+                "   background: #606060;"  // Dark gray
+                "   color: #ffffff;"       // White text
+                "   border: 1px solid #404040;"
+                "}"
+                );
+        } else {
+            lineEdit->setReadOnly(true);
+        }
         fieldEdits.append(lineEdit);
 
         formLayout->addRow(label, lineEdit);
@@ -110,15 +121,22 @@ QWidget* ProviderPage::createPage(QTableWidget* table, int& row) {
         editButton->setEnabled(true);
         saveButton->setEnabled(false);
 
-        // TODO: Add database save logic here
-        // Access field values through fieldEdits vector
-        // Access selected services through servicesList
+        p->setName(fieldEdits[0]->text().trimmed().toStdString());
+        p->setPhoneNumber(fieldEdits[1]->text().trimmed().toStdString());
+        p->setStreetAddress(fieldEdits[2]->text().trimmed().toStdString());
+        p->setCity(fieldEdits[3]->text().trimmed().toStdString());
+        p->setProvince(fieldEdits[4]->text().trimmed().toStdString());
+        p->setPostalCode(fieldEdits[5]->text().trimmed().toStdString());
+        p->setCountry(fieldEdits[6]->text().trimmed().toStdString());
 
-        // Get selected services example:
-        // QList<QVariant> selectedServiceIds;
-        // for (auto item : servicesList->selectedItems()) {
-        //     selectedServiceIds.append(item->data(Qt::UserRole));
-        // }
+        table->item(row, 0)->setText(QString::fromStdString(p->getName()));
+        table->item(row, 1)->setText(QString::fromStdString(p->getPhoneNumber()));
+        table->item(row, 2)->setText(QString::fromStdString(p->getStreetAddress()));
+        table->item(row, 3)->setText(QString::fromStdString(p->getCity()));
+        table->item(row, 4)->setText(QString::fromStdString(p->getProvince()));
+        table->item(row, 5)->setText(QString::fromStdString(p->getPostalCode()));
+        table->item(row, 6)->setText(QString::fromStdString(p->getCountry()));
+
     });
 
     return pageWidget;

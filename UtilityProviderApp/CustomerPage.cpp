@@ -43,13 +43,25 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
     }
 
     // Create and add all the customer information fields
-    QVector<QLineEdit*> fieldEdits; // Store references to all line edits
+    QVector<QLineEdit*> fieldEdits;
     for (int i = 0; i < numColumns-1 && i < customerHeaders.size(); ++i) {
         QLabel* label = new QLabel(QString::fromStdString(customerHeaders[i] + ":"));
         QLineEdit* lineEdit = new QLineEdit(inputs[i]);
-        lineEdit->setReadOnly(true); // Start in read-only mode
-        fieldEdits.append(lineEdit);
 
+        if (customerHeaders[i] == "Account Number") {
+            lineEdit->setEnabled(false);
+            lineEdit->setStyleSheet(
+                "QLineEdit {"
+                "   background: #606060;"  // Dark gray
+                "   color: #ffffff;"       // White text
+                "   border: 1px solid #404040;"
+                "}"
+            );
+        } else {
+            lineEdit->setReadOnly(true);
+        }
+
+        fieldEdits.append(lineEdit);
         formLayout->addRow(label, lineEdit);
     }
 
@@ -178,13 +190,24 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
         editButton->setEnabled(true);
         saveButton->setEnabled(false);
 
-        // TODO: Add database save logic here
-        // You can access the field values through fieldEdits vector
+        // Update customer object with edited values
+        c->setFirstName(fieldEdits[0]->text().toStdString());
+        c->setLastName(fieldEdits[1]->text().toStdString());
+        c->setStreetAddress(fieldEdits[3]->text().toStdString());
+        c->setCity(fieldEdits[4]->text().toStdString());
+        c->setProvince(fieldEdits[5]->text().toStdString());
+        c->setPostalCode(fieldEdits[6]->text().toStdString());
+        c->setCountry(fieldEdits[7]->text().toStdString());
 
-        // for (int i = 0; i < fieldEdits.size(); i++) {
-        //     QString value = fieldEdits[i]->text();
-        //     // Save to database using customerHeaders[i] as field name
-        // }
+        table->item(row, 0)->setText(QString::fromStdString(c->getFirstName()));
+        table->item(row, 1)->setText(QString::fromStdString(c->getLastName()));
+        table->item(row, 3)->setText(QString::fromStdString(c->getStreetAddress()));
+        table->item(row, 4)->setText(QString::fromStdString(c->getCity()));
+        table->item(row, 5)->setText(QString::fromStdString(c->getProvince()));
+        table->item(row, 6)->setText(QString::fromStdString(c->getPostalCode()));
+        table->item(row, 7)->setText(QString::fromStdString(c->getCountry()));
+
+
     });
 
     return pageWidget;
