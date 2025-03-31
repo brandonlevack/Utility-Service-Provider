@@ -100,6 +100,10 @@ Service& Customer::changeService(int index){
     return services[index];                                     // no out of index check, be cautions here
 }
 
+Bill& Customer::changeBill(int index){
+    return bills[index];
+}
+
 std::ostream& operator<<(std::ostream&os, const Customer& customer){
     os << "Name: " << customer.getName() << " Address: " <<customer.getAddress() << std::endl;
     os << "Services: " << std::endl;
