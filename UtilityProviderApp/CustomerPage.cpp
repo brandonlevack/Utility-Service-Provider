@@ -63,9 +63,11 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
     formLayout->addRow(billsLabel, billsComboBox);
 
     billsComboBox->clear();
+    int loc = 0;
     for (auto b : c->getBills()){
         QString billText = QString("$%1").arg(b.getTotal(), 0, 'f', 2);
-        billsComboBox->addItem(billText, QVariant::fromValue(b));
+        billsComboBox->addItem(billText, loc);
+        loc++;
     }
 
     scrollArea->setWidget(scrollContent);
