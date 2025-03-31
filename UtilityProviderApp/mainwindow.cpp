@@ -39,15 +39,17 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         "Canada"
     };
 
-    Customer* c = new Customer("John", "1234");
+    Customer* c = new Customer();
+    c->setFirstName("John");
+    c->setAccountNumber("12345");
     Service s("Hydro", "Water", 15.0, 0.2);
     c->addService(s);
-    c->billCustomer();
+    // c->billCustomer();
     s.setUnitsUsed(10);
     c->addService(s);
-    c->billCustomer();
+    // c->billCustomer();
 
-    TableModifier::addRow(customerTable, testCustomer, c);
+    // TableModifier::addRow(customerTable, testCustomer, c);
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();
 

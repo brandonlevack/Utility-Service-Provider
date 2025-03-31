@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "../src/Customer.h"
 
 #include <QApplication>
 #include <QListWidget>
