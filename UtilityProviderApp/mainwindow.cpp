@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     c->addService(s2);
     c->billCustomer();
 
+
     TableModifier::addRow(customerTable, testCustomer, c);
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();

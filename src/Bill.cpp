@@ -6,10 +6,10 @@ Bill::Bill(std::vector<Service>& s) : services(s) {                 // initializ
     total = 0.0;                                                    // default subtotal of every bill
 }
 
-void Bill::calculateTotal(){                                        // calculate bills total using formula highlighted in Service.h
-    for (Service s : services){
+void Bill::calculateTotal() {
+    total = 0.0;
+    for (const Service& s : services) {  // const reference
         total += s.getFlatRate() + (s.getVariableRate() * s.getUnitsUsed());
-        s.reset();
     }
 }
 
@@ -21,7 +21,7 @@ double Bill::getTotal() const {
     return total;
 }
 
-std::vector<Service> Bill::getServices() const {
+std::vector<Service> Bill::getServices() {
     return services;
 }
 
