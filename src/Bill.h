@@ -11,7 +11,7 @@ class Bill {                                // PASS BY REFERENCE HERE
         std::string status;                         // paid or unpaid
         double total;                               // subtotal of the bill
 
-        std::vector<Service>& services;              // vector of services containing price and usage information for each service used
+        std::vector<Service> services;              // vector of services containing price and usage information for each service used
     public:
         Bill(std::vector<Service>& s);        // constructor; SERVICES IS PASSED BY REFERENCE
 
@@ -21,7 +21,7 @@ class Bill {                                // PASS BY REFERENCE HERE
 
         double getTotal() const;
 
-        std::vector<Service> getServices() const;
+        std::vector<Service> getServices();
 
         friend std::ostream& operator<<(std::ostream&os, const Bill& bill);
 

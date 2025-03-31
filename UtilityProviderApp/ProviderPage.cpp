@@ -129,20 +129,10 @@ QTableWidget* ProviderPage::createTable(std::list<Provider> providers){
 
     TableModifier::initTable(providerTable, ProviderPage::providerHeaders);
 
-    for (const auto &p : providers){
-        /*
-         * create create a vector of strings (items) with following order:
-         * Company Name,
-         * Phone Number,
-         * Street Address,
-         * City,
-         * State/Province,
-         * Postal Code,
-         * Country
-         *
-         * Then call TableModifier::addRow(providerTable, items)
-         */
-        std::vector<string> items;
+    for (auto &p : providers){
+
+        std::vector<std::string> items;
+
         items.push_back(p.getName());
         items.push_back(p.getPhoneNumber());
         items.push_back(p.getStreetAddress());
@@ -151,7 +141,7 @@ QTableWidget* ProviderPage::createTable(std::list<Provider> providers){
         items.push_back(p.getPostalCode());
         items.push_back(p.getCountry());
 
-        TableModifier::addRow(customerTable, items)
+        TableModifier::addRow(providerTable, items, &p);
     }
     return providerTable;
 }

@@ -50,7 +50,10 @@ void Service::setUnitsUsed(double val){
 }
 
 void Service::reset(){
-    history.push_front(*this);
+    Service temp = *this;
+    temp.history.clear();
+
+    history.push_front(temp); // Store the cleaned copy
     unitsUsed = 0;
 }
 

@@ -88,9 +88,12 @@ void Customer::addBill(Bill bill){                              // add current b
 }
 
 void Customer::billCustomer(){
-    Bill bill(services);                                        // create a new bill with a reference to our list of services
-    bill.calculateTotal();                                      // calculate the total of the bill, reset the unitsUsed for each service
-    Customer::addBill(bill);                                    // add the bill as our most recent bill for the customer
+    Bill bill(services);
+    bill.calculateTotal();
+    addBill(bill);
+    for (Service& s : services) {
+        s.reset();
+    }
 }
 
 Service& Customer::changeService(int index){

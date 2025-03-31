@@ -64,12 +64,78 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
     formLayout->addRow(billsLabel, billsComboBox);
 
     billsComboBox->clear();
-    int loc = 0;
-    for (auto b : c->getBills()){
-        QString billText = QString("$%1").arg(b.getTotal(), 0, 'f', 2);
-        billsComboBox->addItem(billText, loc);
-        loc++;
+    billsComboBox->addItem("Please Select a Bill"); // Index 0
+    int billSize = c->getBills().size();
+    for (const Bill& b : c->getBills()) {
+        QString billText = QString("Bill #%1: $%2").arg(billSize - billsComboBox->count() + 1)
+        .arg(b.getTotal(), 0, 'f', 2);
+        billsComboBox->addItem(billText);
     }
+
+    // Create a container for bill details (initially empty)
+    QWidget* billDetailsWidget = new QWidget();
+    QVBoxLayout* billDetailsLayout = new QVBoxLayout(billDetailsWidget);
+    formLayout->addRow(billDetailsWidget); // Add to main form
+
+    QObject::connect(billsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+     [=](int index) {
+        qDebug() << index;
+
+         // Clear previous details
+         QLayoutItem* child;
+         while ((child = billDetailsLayout->takeAt(0))) {
+             delete child->widget();
+             delete child;
+         }
+
+         // Handle the default selection
+         if (index <= 0 || index > c->getBills().size()) {
+             return;
+         }
+        qDebug() << "working";
+
+        // Get selected bill (index 0 is default, so subtract 1)
+        Bill currentBill = c->getBills()[index - 1];
+        auto test = currentBill.getServices();
+        qDebug() << "working";
+
+        // Add service details
+         for (auto s : currentBill.getServices()) {
+             qDebug() << "working";
+             QWidget* serviceWidget = new QWidget();
+             QHBoxLayout* serviceLayout = new QHBoxLayout(serviceWidget);
+
+             // Service name
+            QLabel* serviceName = new QLabel(
+            QString("%1: %2")
+                .arg(QString::fromStdString(s.getSuperCategory()))
+                .arg(QString::fromStdString(s.getSubCategory()))
+            );
+
+            //Service calculation
+            double serviceTotal = s.getFlatRate() + (s.getVariableRate() * s.getUnitsUsed());
+            QLabel* serviceCalc = new QLabel(
+                QString("%1 + %2 * %3 = %4")
+                    .arg(s.getFlatRate(), 0, 'f', 2)
+                    .arg(s.getVariableRate(), 0, 'f', 2)
+                    .arg(s.getUnitsUsed(), 0, 'f', 2)
+                    .arg(serviceTotal, 0, 'f', 2)
+                );
+
+            serviceLayout->addWidget(serviceName);
+            serviceLayout->addStretch();
+            serviceLayout->addWidget(serviceCalc);
+            billDetailsLayout->addWidget(serviceWidget);
+        }
+        qDebug() << "past loop";
+
+        // Add bill total
+        QLabel* billTotalLabel = new QLabel(
+            QString("\nTotal: $%1").arg(currentBill.getTotal(), 0, 'f', 2)
+            );
+        billTotalLabel->setStyleSheet("font-weight: bold;");
+        billDetailsLayout->addWidget(billTotalLabel);
+    });
 
     scrollArea->setWidget(scrollContent);
     mainLayout->addWidget(scrollArea);
@@ -125,21 +191,9 @@ QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
 
     TableModifier::initTable(customerTable, CustomerPage::customerHeaders);
 
-    for (const auto &c : customers){
-        /*
-         * create create a vector of strings (items) with following order:
-         * First Name,
-         * Last Name,
-         * Street Address,
-         * City,
-         * State/Province,
-         * Postal Code,
-         * Country
-         *
-         * Then call TableModifier::addRow(customerTable, items)
-         */
+    for ( auto &c : customers){
+        std::vector<std::string> items;
 
-        std::vector<string> items;
         items.push_back(c.getFirstName());
         items.push_back(c.getLastName());
         items.push_back(c.getStreetAddress());
@@ -148,7 +202,7 @@ QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
         items.push_back(c.getPostalCode());
         items.push_back(c.getCountry());
 
-        TableModifier::addRow(customerTable, items)
+        TableModifier::addRow(customerTable, items, &c);
     }
     return customerTable;
 }
