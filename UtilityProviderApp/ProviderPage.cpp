@@ -10,6 +10,7 @@
 #include <QVector>
 #include <QListWidget>
 #include <sstream>
+#include <vector>
 
 #include "TableModifier.h"
 
@@ -141,6 +142,16 @@ QTableWidget* ProviderPage::createTable(std::list<Provider> providers){
          *
          * Then call TableModifier::addRow(providerTable, items)
          */
+        std::vector<string> items;
+        items.push_back(p.getName());
+        items.push_back(p.getPhoneNumber());
+        items.push_back(p.getStreetAddress());
+        items.push_back(p.getCity());
+        items.push_back(p.getProvince());
+        items.push_back(p.getPostalCode());
+        items.push_back(p.getCountry());
+
+        TableModifier::addRow(customerTable, items)
     }
     return providerTable;
 }

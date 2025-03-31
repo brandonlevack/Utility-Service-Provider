@@ -10,6 +10,7 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QVector>
+#include <vector>
 
 std::vector<std::string> CustomerPage::customerHeaders = {
     "First Name",
@@ -137,6 +138,17 @@ QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
          *
          * Then call TableModifier::addRow(customerTable, items)
          */
+
+        std::vector<string> items;
+        items.push_back(c.getFirstName());
+        items.push_back(c.getLastName());
+        items.push_back(c.getStreetAddress());
+        items.push_back(c.getCity());
+        items.push_back(c.getProvince());
+        items.push_back(c.getPostalCode());
+        items.push_back(c.getCountry());
+
+        TableModifier::addRow(customerTable, items)
     }
     return customerTable;
 }
