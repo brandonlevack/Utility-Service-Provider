@@ -9,22 +9,16 @@
 
 int main() {
 
-    std::vector<Provider> providers = populateProvider("newfile.db");
-    std::vector<Customer> customers = populateCustomer("newfile.db");
+    std::vector<Provider> providers = populateProvider("src/newfile.db");
+    std::vector<Customer> customers = populateCustomer("src/newfile.db");
 
-    loadServicesForAllProviders(providers, "newfile.db");
-    loadServicesForAllCustomers(customers, "newfile.db");
-    loadBillsForAllCustomers(customers, "newfile.db");
+    //loadServicesForAllProviders(providers, "newfile.db");
+    loadServicesForAllCustomers(customers, "src/newfile.db");
+    //loadBillsForAllCustomers(customers, "newfile.db");
 
-    for (Provider p : providers){
-        std::cout << p;
-    }
+    //std::cout << providers[1];
 
-    std::cout << "\n\n\n";
-
-    for (Customer c : customers){
-        std::cout << c;
-    }
+    std::cout << customers[1];
 
 
 }

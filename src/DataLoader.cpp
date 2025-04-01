@@ -1,40 +1,29 @@
 #include "DataLoader.h"
+#include "populateService.h"
+#include "populateBill.h"
+#include <vector>
 #include <iostream>
+#include <random>
+
+int getRandomNumber(int min, int max) {
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 gen(rd()); // Seed the generator
+    std::uniform_int_distribution<int> distr(min, max); // Define the range
+
+    return distr(gen); // Generate a random number
+}
 
 void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {  // must call before adding bills
-    sqlite3* db;
-    char* errMsg = nullptr;
-
-    if (sqlite3_open(dbPath, &db) != SQLITE_OK) {
-        std::cerr << "Cannot open database: " << sqlite3_errmsg(db) << std::endl;
-        return;
-    }
-
+    
+    std::vector<Service> services = loadAllServices("newfile.db");
+    std::size_t size = services.size();
     for (Customer& customer : customers) {
-        std::string sql = "SELECT s.service_id, s.name, s.service_super_category, "
-                         "s.service_sub_category, s.flat_rate, s.variable_rate "
-                         "FROM services s "
-                         "JOIN bills b ON s.service_id = b.service_id "
-                         "WHERE b.customer_id = " + customer.getAccountNumber() + ";";
-
-        auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
-            Customer* customer = static_cast<Customer*>(data);
-            Service service(argv[2], argv[3], std::stod(argv[4]), std::stod(argv[5]));
-
-            service.setServiceId(std::stoi(argv[0]));
-            service.setProviderName(argv[1]);
-
-            customer->addService(service);
-            return 0;
-        };
-
-        if (sqlite3_exec(db, sql.c_str(), callback, &customer, &errMsg) != SQLITE_OK) {
-            std::cerr << "SQL error: " << errMsg << std::endl;
-            sqlite3_free(errMsg);
+        int i = getRandomNumber(1,4);
+        for (int j = 0; j < i; j++){
+            int k = getRandomNumber(0,size-1);
+            customer.addService(services[k]);
         }
     }
-
-    sqlite3_close(db);
 }
 
 void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {

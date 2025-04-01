@@ -56,7 +56,7 @@ class Service {
 
         double getUnitsUsed() const;
 
-        int getServiceId();
+        int getServiceId() const;
 
         void setSuperCategory(std::string super);                       // setters
 
