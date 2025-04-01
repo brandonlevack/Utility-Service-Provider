@@ -6,7 +6,11 @@ static int customerCallback(void* data, int argc, char** argv, char** azColName)
     std::vector<Customer>* customers = static_cast<std::vector<Customer>*>(data); //sets parameter *data to vector pointer
     Customer customer;
 
-    //splits fullname into first and last name, sets each
+    //sets account#
+    customer.setAccountNumber(argv[0]);
+        
+    //sets first and last name
+    //splits fullname into first and last name
     std::string fullName = std::string(argv[1]);
     size_t spacePos = fullName.find(" ");
     if (spacePos != std::string::npos) {
@@ -16,6 +20,8 @@ static int customerCallback(void* data, int argc, char** argv, char** azColName)
 
     //sets address
     customer.setStreetAddress(argv[2]);
+    
+    //adds customer to vector
     customers->push_back(customer);
     return 0;
 }
