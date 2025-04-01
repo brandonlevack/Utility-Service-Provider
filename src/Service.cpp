@@ -33,7 +33,7 @@ double Service::getUnitsUsed() const {
     return unitsUsed;
 }
 
-int Service::getServiceId() {
+int Service::getServiceId() const {
     return serviceId;
 }
 
@@ -74,6 +74,6 @@ void Service::reset(){
 }
 
 std::ostream& operator<<(std::ostream&os, const Service& service){
-    os << "Class: " << service.getSuperCategory() << " Sub-Class: " << service.getSubCategory() << " @ $" << service.getFlatRate() << " monthly plus $" << service.getVariableRate() << "/unit." << std::endl;
+    os << "Class: " << service.getSuperCategory() << " Sub-Class: " << service.getSubCategory() << " @ $" << service.getFlatRate() << " monthly plus $" << service.getVariableRate() << "/unit." << " ID = " << service.getServiceId() << std::endl;
     return os;
 }

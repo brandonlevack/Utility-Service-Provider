@@ -121,6 +121,7 @@ std::vector<Service>& Customer::getServicesByReference(){
 }
 
 std::ostream& operator<<(std::ostream&os, const Customer& customer){
+    os << "Customer:" << '\t';
     os << "Name: " << customer.getName() << " Address: " <<customer.getAddress() << std::endl;
     os << "Services: " << std::endl;
     for (Service s : customer.getServices()){

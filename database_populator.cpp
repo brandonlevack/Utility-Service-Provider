@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include "src/DataLoader.h"
 
 class DatabasePopulator {
 private:
@@ -104,8 +105,17 @@ public:
 
         // Populate customers
         for (size_t i = 0; i < customerNames.size(); i++) {
+            std::vector<std::string> streetNames = {
+                "Oak Street", "Maple Avenue", "Cedar Lane", "Pine Road", "Elm Drive",
+                "Birch Boulevard", "Willow Way", "Spruce Street", "Ash Avenue", "Poplar Lane"
+            };
+            
+            int streetNumber = 100 + (rand() % 900); // Generates number between 100-999
+            std::string address = std::to_string(streetNumber) + " " + 
+                                streetNames[rand() % streetNames.size()];
+                                
             executeSQL("INSERT INTO customers VALUES (" + std::to_string(i+1) + 
-                ", '" + customerNames[i] + "', 'Address " + std::to_string(i) + "', 'TempService" + "');");
+                ", '" + customerNames[i] + "', '" + address + "', 'TempService" + "');");
         }
 
         // Populate services
