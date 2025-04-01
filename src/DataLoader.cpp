@@ -1,7 +1,7 @@
 #include "DataLoader.h"
 #include <iostream>
 
-void DataLoader::loadServicesForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
+void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
     sqlite3* db;
     char* errMsg = nullptr;
 
@@ -41,7 +41,7 @@ void DataLoader::loadServicesForAllCustomers(std::vector<Customer>& customers, c
     sqlite3_close(db);
 }
 
-void DataLoader::loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
+void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
     sqlite3* db;
     char* errMsg = nullptr;
 
@@ -84,7 +84,7 @@ void DataLoader::loadBillsForAllCustomers(std::vector<Customer>& customers, cons
     sqlite3_close(db);
 }
 
-void DataLoader::loadServicesForAllProviders(std::vector<Provider>& providers, const char* dbPath) {
+void loadServicesForAllProviders(std::vector<Provider>& providers, const char* dbPath) {
     sqlite3* db;
     char* errMsg = nullptr;
 
