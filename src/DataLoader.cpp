@@ -1,4 +1,5 @@
-#include "DataLoader"
+#include "DataLoader.h"
+#include <iostream>
 
 void DataLoader::loadServicesForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
     sqlite3* db;
