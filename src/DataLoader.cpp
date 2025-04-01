@@ -27,6 +27,15 @@ void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* d
 }
 
 void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
+
+    for (Customer& c : customers){
+        Bill bill(c.getServicesByReference());
+        bill.calculateTotal();
+        c.addBill(bill);
+    }
+
+
+    /*
     sqlite3* db;
     char* errMsg = nullptr;
 
@@ -39,7 +48,7 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
         std::string sql = "SELECT b.bill_id, b.service_id, b.provider_id, b.status, "
                          "b.used, b.issue_date, b.due_date, b.payment_date "
                          "FROM bills b "
-                         "WHERE b.customer_id = " + customer.getAccountNumber() + ";";
+                         "WHERE b.service_id = " + customer.getAccountNumber() + ";";
 
         auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
             Customer* customer = static_cast<Customer*>(data);
@@ -57,7 +66,7 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
                 }
             }
 
-            /*
+            
             Bill bill;
 
             bill.setBillId(std::stoi(argv[0]));
@@ -75,7 +84,7 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
                     customer->changeService(i).setUnitsUsed(std::stoi(argv[4]));
                 }
             }
-            */
+            
             return 0;
         };
 
@@ -86,6 +95,7 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
     }
 
     sqlite3_close(db);
+    */
 }
 
 void loadServicesForAllProviders(std::vector<Provider>& providers, const char* dbPath) {
