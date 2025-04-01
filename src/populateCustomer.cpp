@@ -1,6 +1,6 @@
 #include "populateCustomer.h"
-#include <sqlite3.h>
 #include <iostream>
+#include <sqlite3.h>
 
 static int customerCallback(void* data, int argc, char** argv, char** azColName) {
     std::vector<Customer>* customers = static_cast<std::vector<Customer>*>(data); //sets parameter *data to vector pointer
