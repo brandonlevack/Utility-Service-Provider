@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "TableModifier.h"
 #include "../src/populateCustomer.h"
+#include "../src/populateProvider.h"
 #include "CustomerPage.h"
 #include "ProviderPage.h"
 #include "../src/Service.h"
@@ -43,7 +44,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     c.addService(s2);
     c.billCustomer();
 
-    std::vector<Customer> customers = populateCustomer("newfile.db");
+    customers = populateCustomer("newfile.db");
+
+    customers.push_back(c);
 
     QTableWidget* customerTable = CustomerPage::createTable(&customers);
 
@@ -75,7 +78,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     p.setProvince("Ontario");
     p.setStreetAddress("123 Main Street");
 
-    QTableWidget* providerTable = ProviderPage::createTable(new std::vector<Provider>{p});
+    providers = populateProvider("newfile.db");
+
+    providers.push_back(p);
+
+    QTableWidget* providerTable = ProviderPage::createTable(&providers);
     connect(providerTable, &QTableWidget::cellDoubleClicked, [this, providerTable](int row, int column){
         QString companyName = providerTable->item(row, 0)->text();
 

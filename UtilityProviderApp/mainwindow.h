@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QListWidget>
+#include "../src/Customer.h"
+#include "../src/Provider.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,5 +23,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QTabWidget* tabWidget;
+    std::vector<Customer> customers;
+    std::vector<Provider> providers;
 };
 #endif // MAINWINDOW_H
