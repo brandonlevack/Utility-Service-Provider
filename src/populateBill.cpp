@@ -1,7 +1,7 @@
-#include "BillDataLoader.h"
+#include "populateBill.h"
 #include <iostream>
 
-std::vector<Bill> BillDataLoader::loadAllBills(const char* dbPath) {
+std::vector<Bill> loadAllBills(const char* dbPath) {
     std::vector<Bill> bills;
     sqlite3* db;
     char* errMsg = nullptr;
