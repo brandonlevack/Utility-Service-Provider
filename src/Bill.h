@@ -35,6 +35,8 @@ class Bill {                                // PASS BY REFERENCE HERE
 
         void setServiceId(int id);
 
+        void setStatus(std::string s);
+
         std::string getIssueDate() const;
 
         std::string getDueDate() const;

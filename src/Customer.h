@@ -73,6 +73,8 @@ class Customer {
 
         Bill& changeBill(int index);
 
+        std::vector<Service>& getServicesByReference();
+
         friend std::ostream& operator<<(std::ostream&os, const Customer& customer);
 
         void billCustomer();

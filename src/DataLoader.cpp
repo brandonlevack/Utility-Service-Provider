@@ -15,18 +15,14 @@ void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* d
                          "s.service_sub_category, s.flat_rate, s.variable_rate "
                          "FROM services s "
                          "JOIN bills b ON s.service_id = b.service_id "
-                         "WHERE b.customer_id = " + customer.accNumber + ";";
+                         "WHERE b.customer_id = " + customer.getAccountNumber() + ";";
 
         auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
             Customer* customer = static_cast<Customer*>(data);
-            Service service;
+            Service service(argv[2], argv[3], std::stod(argv[4]), std::stod(argv[5]));
 
             service.setServiceId(std::stoi(argv[0]));
             service.setProviderName(argv[1]);
-            service.setServiceCategory(argv[2]);
-            service.setServiceSubCategory(argv[3]);
-            service.setFlatRate(std::stod(argv[4]));
-            service.setVariableRate(std::stod(argv[5]));
 
             customer->addService(service);
             return 0;
@@ -54,10 +50,27 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
         std::string sql = "SELECT b.bill_id, b.service_id, b.provider_id, b.status, "
                          "b.used, b.issue_date, b.due_date, b.payment_date "
                          "FROM bills b "
-                         "WHERE b.customer_id = " + customer.accNumber + ";";
+                         "WHERE b.customer_id = " + customer.getAccountNumber() + ";";
 
         auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
             Customer* customer = static_cast<Customer*>(data);
+            int size = customer->numServices();
+            ///////////////// working here rn
+
+            for (int i = 0; i < size; i++){
+                if (customer->changeService(i).getServiceId() == std::stoi(argv[1])){
+                    customer->changeService(i).setUnitsUsed(std::stoi(argv[4]));
+                    Bill bill(customer->getServicesByReference());
+                    bill.setServiceId(std::stoi(argv[1]));
+                    bill.setStatus(argv[3]);
+                    bill.setIssueDate(argv[5]);
+                    bill.setDueDate(argv[6]);
+                    customer->addBill(bill);
+                    break;
+                }
+            }
+
+            /*
             Bill bill;
 
             bill.setBillId(std::stoi(argv[0]));
@@ -67,16 +80,15 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
             //bill.setUnitsUsed(std::stoi(argv[4]));    //change to altering the Service Item
             bill.setIssueDate(argv[5]);
             bill.setDueDate(argv[6]);
-            if (argv[7]) { // payment_date might be NULL
+            /*if (argv[7]) { // payment_date might be NULL
                 bill.setPaymentDate(argv[7]);
             }
-            for (int i =0; i < customer.numServices(); i++){                // adds units used to service objects
-                if (customer.changeService(i).getServiceId == std::stoi(argv[1])){
-                    customer.changeService(i).setUnitsUsed(std::stoi(argv[4]));
+            for (int i =0; i < customer->numServices(); i++){                // adds units used to service objects
+                if (customer->changeService(i).getServiceId == std::stoi(argv[1])){
+                    customer->changeService(i).setUnitsUsed(std::stoi(argv[4]));
                 }
             }
-
-            customer->addBill(bill);
+            */
             return 0;
         };
 
@@ -105,14 +117,10 @@ void loadServicesForAllProviders(std::vector<Provider>& providers, const char* d
 
         auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
             Provider* provider = static_cast<Provider*>(data);
-            Service service;
+            Service service(argv[1], argv[2], std::stod(argv[3]), std::stod(argv[4]));
 
             service.setServiceId(std::stoi(argv[0]));
             service.setProviderName(provider->getName());
-            service.setServiceCategory(argv[1]);
-            service.setServiceSubCategory(argv[2]);
-            service.setFlatRate(std::stod(argv[3]));
-            service.setVariableRate(std::stod(argv[4]));
 
             provider->addService(service);
             return 0;

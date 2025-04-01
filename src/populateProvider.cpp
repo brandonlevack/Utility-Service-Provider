@@ -4,10 +4,7 @@
   
 static int providerCallback(void* data, int argc, char** argv, char** azColName) {
     std::vector<Provider>* providers = static_cast<std::vector<Provider>*>(data);
-    Provider provider;
-    
-    // Set name
-    provider.setName(argv[1]);
+    Provider provider(argv[1]);
     
     // Set phone number
     provider.setPhoneNumber(argv[2] ? argv[2] : "");

@@ -116,6 +116,10 @@ int Customer::numServices(){
     return i;
 }
 
+std::vector<Service>& Customer::getServicesByReference(){
+    return services;
+}
+
 std::ostream& operator<<(std::ostream&os, const Customer& customer){
     os << "Name: " << customer.getName() << " Address: " <<customer.getAddress() << std::endl;
     os << "Services: " << std::endl;

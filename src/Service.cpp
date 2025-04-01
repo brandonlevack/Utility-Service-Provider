@@ -33,7 +33,7 @@ double Service::getUnitsUsed() const {
     return unitsUsed;
 }
 
-int Service::getServiceId() const {
+int Service::getServiceId() {
     return serviceId;
 }
 

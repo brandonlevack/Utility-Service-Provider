@@ -45,6 +45,10 @@ void Bill::setServiceId(int id){
     serviceId = id;
 }
 
+void Bill::setStatus(std::string s){
+    status = s;
+}
+
 void Bill::setIssueDate(std::string date){
     issueDate = date;
 }

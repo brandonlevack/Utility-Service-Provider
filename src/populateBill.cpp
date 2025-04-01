@@ -22,14 +22,9 @@ std::vector<Bill> loadAllBills(const char* dbPath) {
         bill.setBillId(std::stoi(argv[0]));
         bill.setCustomerId(std::stoi(argv[1]));
         bill.setServiceId(std::stoi(argv[2]));
-        bill.setProviderId(std::stoi(argv[3]));
         bill.setStatus(argv[4]);
-        bill.setUsed(std::stoi(argv[5]));
         bill.setIssueDate(argv[6]);
         bill.setDueDate(argv[7]);
-        if (argv[8]) { // payment_date might be NULL
-            bill.setPaymentDate(argv[8]);
-        }
         
         bills->push_back(bill);
         return 0;

@@ -16,14 +16,10 @@ std::vector<Service> loadAllServices(const char* dbPath) {
 
     auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
         std::vector<Service>* services = static_cast<std::vector<Service>*>(data);
-        Service service;
+        Service service(argv[2], argv[3], std::stod(argv[4]), std::stod(argv[5]));
         
         service.setServiceId(std::stoi(argv[0]));
         service.setProviderName(argv[1]);
-        service.setServiceCategory(argv[2]);
-        service.setServiceSubCategory(argv[3]);
-        service.setFlatRate(std::stod(argv[4]));
-        service.setVariableRate(std::stod(argv[5]));
         
         services->push_back(service);
         return 0;

@@ -4,7 +4,11 @@ $sourceFiles = @(
     "src/Service.cpp",
     "src/Provider.cpp",
     "src/Customer.cpp",
-    "src/Bill.cpp"
+    "src/Bill.cpp",
+    "src/populateCustomer.cpp",
+    "src/populateProvider.cpp",
+    "src/populateService.cpp",
+    "src/DataLoader.cpp"
 )
 
 $outputExecutable = "uspMain.exe"
