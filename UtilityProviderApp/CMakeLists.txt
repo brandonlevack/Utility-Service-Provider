@@ -33,6 +33,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ProviderPage.h
         ProviderPage.cpp
         ../src/Bill.cpp ../src/Bill.h ../src/Customer.cpp ../src/Customer.h ../src/Provider.cpp ../src/Provider.h ../src/Service.cpp ../src/Service.h
+        ../src/populateCustomer.cpp ../src/populateCustomer.h
+        ../src/populateCustomer.cpp ../src/populateCustomer.h
+        ../src/populateCustomer.cpp ../src/populateCustomer.h
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET UtilityProviderApp APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
