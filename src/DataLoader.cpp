@@ -63,8 +63,6 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
                     Bill bill(customer->getServicesByReference());
                     bill.setServiceId(std::stoi(argv[1]));
                     bill.setStatus(argv[3]);
-                    bill.setIssueDate(argv[5]);
-                    bill.setDueDate(argv[6]);
                     customer->addBill(bill);
                     break;
                 }
@@ -80,7 +78,7 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
             //bill.setUnitsUsed(std::stoi(argv[4]));    //change to altering the Service Item
             bill.setIssueDate(argv[5]);
             bill.setDueDate(argv[6]);
-            /*if (argv[7]) { // payment_date might be NULL
+            if (argv[7]) { // payment_date might be NULL
                 bill.setPaymentDate(argv[7]);
             }
             for (int i =0; i < customer->numServices(); i++){                // adds units used to service objects

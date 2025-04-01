@@ -186,10 +186,7 @@ public:
                         std::to_string(providerId) + ", '" + 
                         status + "', " + 
                         std::to_string(usageAmount) + ", '" + 
-                        "35.4" + ", '" +
-                        monthlyDates[month].first + "', '" + 
-                        monthlyDates[month].second + "', " + 
-                        (paymentDate == "NULL" ? "NULL" : ("'" + paymentDate + "'")) + ");");
+                        "35.4" + "');");
                 }
             }
         }
