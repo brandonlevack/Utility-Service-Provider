@@ -213,16 +213,17 @@ QWidget* CustomerPage::createPage(QTableWidget* table, int& row){
     return pageWidget;
 }
 
-QTableWidget* CustomerPage::createTable(std::list<Customer> customers){
+QTableWidget* CustomerPage::createTable(std::vector<Customer>* customers){
     QTableWidget* customerTable = new QTableWidget();
 
     TableModifier::initTable(customerTable, CustomerPage::customerHeaders);
 
-    for ( auto &c : customers){
+    for ( auto &c : *customers){
         std::vector<std::string> items;
 
         items.push_back(c.getFirstName());
         items.push_back(c.getLastName());
+        items.push_back(c.getAccountNumber());
         items.push_back(c.getStreetAddress());
         items.push_back(c.getCity());
         items.push_back(c.getProvince());

@@ -14,7 +14,7 @@ public:
 
     static QWidget* createPage(QTableWidget* table, int& row);
 
-    static QTableWidget* createTable(std::list<Provider> providers);
+    static QTableWidget* createTable(std::vector<Provider>* providers);
 
 };
 

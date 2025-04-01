@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "TableModifier.h"
+#include "../src/populateCustomer.h"
+#include "../src/populateProvider.h"
 #include "CustomerPage.h"
 #include "ProviderPage.h"
 #include "../src/Service.h"
@@ -8,6 +10,7 @@
 
 #include <QVBoxLayout>
 #include <QLabel>
+#include <vector>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -24,34 +27,29 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QVBoxLayout* layout1 = new QVBoxLayout(customerPage);
     layout1->addWidget(new QLabel("This is the customer page"));
 
-
-    QTableWidget* customerTable = new QTableWidget(this);
-
-    TableModifier::initTable(customerTable, CustomerPage::customerHeaders);
-    std::vector<std::string> testCustomer = {
-        "John",
-        "Doe",
-        "123456",
-        "123 Main Street",
-        "Windsor",
-        "Ontario",
-        "A1B2C3",
-        "Canada"
-    };
-
-    Customer* c = new Customer();
-    c->setFirstName("John");
-    c->setAccountNumber("12345");
+    Customer c;
+    c.setFirstName("John");
+    c.setLastName("James");
+    c.setAccountNumber("123456");
+    c.setStreetAddress("123 Main Street");
+    c.setCity("Windsor");
+    c.setProvince("Ontario");
+    c.setPostalCode("A1B2C3");
+    c.setCountry("Canada");
     Service s("Hydro", "Water", 15.0, 0.2);
-    c->addService(s);
-    c->billCustomer();
+    c.addService(s);
+    c.billCustomer();
     Service s2("Hydro", "Gas", 20.0, 0.32);
     s2.setUnitsUsed(10);
-    c->addService(s2);
-    c->billCustomer();
+    c.addService(s2);
+    c.billCustomer();
 
+    customers = populateCustomer("newfile.db");
 
-    TableModifier::addRow(customerTable, testCustomer, c);
+    customers.insert(customers.begin(), c);
+
+    QTableWidget* customerTable = CustomerPage::createTable(&customers);
+
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();
 
@@ -69,27 +67,22 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         tabWidget->setCurrentIndex(temp);
     });
 
-
-
     //Provider Page
     QVBoxLayout* layout2 = new QVBoxLayout(providerPage);
     layout2->addWidget(new QLabel("This is the provider page"));
-    QTableWidget* providerTable = new QTableWidget(this);
-    TableModifier::initTable(providerTable, ProviderPage::providerHeaders);
-    std::vector<std::string> testProvider = {
-        "Gas Co",
-        "+1 999-999-9999",
-        "123 Main Street",
-        "Windsor",
-        "Ontario",
-        "A1B2C3",
-        "Canada"
-    };
 
-    Provider* p = new Provider("Gas Co");
-    (*p).addService(s);
+    Provider p("Gas Co", "999-999-9999", std::vector<Service>{s});
+    p.setCity("Windsor");
+    p.setCountry("Canada");
+    p.setPostalCode("A1B2C3");
+    p.setProvince("Ontario");
+    p.setStreetAddress("123 Main Street");
 
-    TableModifier::addRow(providerTable, testProvider, p);
+    providers = populateProvider("newfile.db");
+
+    providers.insert(providers.begin(), p);
+
+    QTableWidget* providerTable = ProviderPage::createTable(&providers);
     connect(providerTable, &QTableWidget::cellDoubleClicked, [this, providerTable](int row, int column){
         QString companyName = providerTable->item(row, 0)->text();
 

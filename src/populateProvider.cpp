@@ -2,7 +2,7 @@
 #include <sqlite3.h>
 #include <iostream>
   
-static int providerCallback(void* data, int argc, char** argv, char** azColName) {
+int providerCallback(void* data, int argc, char** argv, char** azColName) {
     std::vector<Provider>* providers = static_cast<std::vector<Provider>*>(data);
     Provider provider(argv[1]);
     
