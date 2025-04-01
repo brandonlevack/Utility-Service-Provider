@@ -1,7 +1,7 @@
-#include "ServiceDataLoader.h"
+#include "populateService.h"
 #include <iostream>
 
-std::vector<Service> ServiceDataLoader::loadAllServices(const char* dbPath) {
+std::vector<Service> loadAllServices(const char* dbPath) {
     std::vector<Service> services;
     sqlite3* db;
     char* errMsg = nullptr;
