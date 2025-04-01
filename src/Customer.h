@@ -77,6 +77,8 @@ class Customer {
 
         void billCustomer();
 
+        int numServices();
+
 };
 
 #endif

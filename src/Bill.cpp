@@ -21,6 +21,38 @@ double Bill::getTotal() const {
     return total;
 }
 
+int Bill::getBillId() const {
+    return billId;
+}
+
+int Bill::getServiceId() const {
+    return serviceId;
+}
+
+std::string Bill::getIssueDate() const {
+    return issueDate;
+}
+
+std::string Bill::getDueDate() const {
+    return dueDate;
+}
+
+void Bill::setBillId(int id){
+    billId = id;
+}
+
+void Bill::setServiceId(int id){
+    serviceId = id;
+}
+
+void Bill::setIssueDate(std::string date){
+    issueDate = date;
+}
+
+void Bill::setDueDate(std::string date){
+    dueDate = date;
+}
+
 std::vector<Service> Bill::getServices() {
     return services;
 }

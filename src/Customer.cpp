@@ -108,6 +108,14 @@ Bill& Customer::changeBill(int index){
     return bills[index];
 }
 
+int Customer::numServices(){
+    int i=0;
+    for (auto s : services){
+        i++;
+    }
+    return i;
+}
+
 std::ostream& operator<<(std::ostream&os, const Customer& customer){
     os << "Name: " << customer.getName() << " Address: " <<customer.getAddress() << std::endl;
     os << "Services: " << std::endl;

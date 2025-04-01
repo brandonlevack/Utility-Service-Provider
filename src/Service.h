@@ -20,6 +20,10 @@ If a Provider sells gas, water, and electric, it will have a list of service obj
 
 class Service {
     private:
+        int serviceId;
+
+        std::string providerName;
+
         std::string superCategory;                  // ie Hydro
         std::string subCategory;                    // ie Water
 
@@ -44,21 +48,29 @@ class Service {
 
         std::string getSubCategory() const;
 
+        std::string getProviderName() const;
+
         double getFlatRate() const;
 
         double getVariableRate() const;
 
         double getUnitsUsed() const;
 
+        int getServiceId() const;
+
         void setSuperCategory(std::string super);                       // setters
 
         void setSubCategory(std::string sub);
+
+        void setProviderName(std::string name);
 
         void setFlatRate(double rate);
 
         void setVariableRate(double rate);
 
         void setUnitsUsed(double val);
+
+        void setServiceId(int id);
 
         void reset();
 

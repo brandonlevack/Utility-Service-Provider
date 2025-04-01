@@ -17,6 +17,10 @@ std::string Service::getSubCategory() const {
     return subCategory;
 }
 
+std::string Service::getProviderName() const {
+    return providerName;
+}
+
 double Service::getFlatRate() const {
     return flatRate;
 }
@@ -29,12 +33,20 @@ double Service::getUnitsUsed() const {
     return unitsUsed;
 }
 
+int Service::getServiceId() const {
+    return serviceId;
+}
+
 void Service::setSuperCategory(std::string super){                              // setters
     superCategory = super;
 }
 
 void Service::setSubCategory(std::string sub){
     subCategory = sub;
+}
+
+void Service::setProviderName(std::string name){
+    providerName = name;
 }
 
 void Service::setFlatRate(double flat){
@@ -47,6 +59,10 @@ void Service::setVariableRate(double var){
 
 void Service::setUnitsUsed(double val){
     unitsUsed = val;
+}
+
+void Service::setServiceId(int id){
+    serviceId = id;
 }
 
 void Service::reset(){

@@ -13,7 +13,7 @@ static int providerCallback(void* data, int argc, char** argv, char** azColName)
     provider.setPhoneNumber(argv[2] ? argv[2] : "");
     
     // Set address
-    provider.setAddress(argv[3]);
+    provider.setStreetAddress(argv[3]);
 
     //add to vector
     providers->push_back(provider);

@@ -1,7 +1,7 @@
 #include "DataLoader.h"
 #include <iostream>
 
-void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {
+void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* dbPath) {  // must call before adding bills
     sqlite3* db;
     char* errMsg = nullptr;
 
@@ -62,13 +62,18 @@ void loadBillsForAllCustomers(std::vector<Customer>& customers, const char* dbPa
 
             bill.setBillId(std::stoi(argv[0]));
             bill.setServiceId(std::stoi(argv[1]));
-            bill.setProviderId(std::stoi(argv[2]));
+            //bill.setProviderId(std::stoi(argv[2]));
             bill.setStatus(argv[3]);
-            bill.setUsed(std::stoi(argv[4]));
+            //bill.setUnitsUsed(std::stoi(argv[4]));    //change to altering the Service Item
             bill.setIssueDate(argv[5]);
             bill.setDueDate(argv[6]);
             if (argv[7]) { // payment_date might be NULL
                 bill.setPaymentDate(argv[7]);
+            }
+            for (int i =0; i < customer.numServices(); i++){                // adds units used to service objects
+                if (customer.changeService(i).getServiceId == std::stoi(argv[1])){
+                    customer.changeService(i).setUnitsUsed(std::stoi(argv[4]));
+                }
             }
 
             customer->addBill(bill);

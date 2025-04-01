@@ -6,16 +6,6 @@
 
 int main() {
 
-    Service s();
-    std::cout << s;
-
-    Customer c();
-    std::cout << c;
-
-    Provider p();
-    std::cout << p;
-
-    Bill b();
-    std::cout << b;
+    std::cout << "Hello";
 
 }
