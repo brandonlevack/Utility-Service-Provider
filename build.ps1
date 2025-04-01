@@ -16,9 +16,10 @@ $outputExecutable = "uspMain.exe"
 # Compiler and flags
 $compiler = "g++"
 $flags = "-Wall -std=c++11"
+$postflag = "-lsqlite3"
 
 # Create the compile command
-$compileCommand = "$compiler $flags $($sourceFiles -join ' ') -o $outputExecutable"
+$compileCommand = "$compiler $flags $($sourceFiles -join ' ') $postflag -o $outputExecutable"
 
 # Print the compile command
 Write-Host "Running command: $compileCommand"

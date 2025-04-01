@@ -11,7 +11,7 @@ std::vector<Service> loadAllServices(const char* dbPath) {
         return services;
     }
 
-    std::string sql = "SELECT service_id, provider_name, service_super_category, "
+    std::string sql = "SELECT service_id, name, service_super_category, "
                      "service_sub_category, flat_rate, variable_rate FROM services;";
 
     auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {

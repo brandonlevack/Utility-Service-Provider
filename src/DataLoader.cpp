@@ -11,7 +11,7 @@ void loadServicesForAllCustomers(std::vector<Customer>& customers, const char* d
     }
 
     for (Customer& customer : customers) {
-        std::string sql = "SELECT s.service_id, s.provider_name, s.service_super_category, "
+        std::string sql = "SELECT s.service_id, s.name, s.service_super_category, "
                          "s.service_sub_category, s.flat_rate, s.variable_rate "
                          "FROM services s "
                          "JOIN bills b ON s.service_id = b.service_id "
@@ -112,7 +112,7 @@ void loadServicesForAllProviders(std::vector<Provider>& providers, const char* d
 
     for (Provider& provider : providers) {
         std::string sql = "SELECT service_id, service_super_category, service_sub_category, "
-                         "flat_rate, variable_rate FROM services WHERE provider_name = '" + 
+                         "flat_rate, variable_rate FROM services WHERE name = '" + 
                          provider.getName() + "';";
 
         auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
