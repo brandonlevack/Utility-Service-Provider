@@ -5,7 +5,6 @@
 #include <sqlite3.h>
 #include "Service.h"
 
-    static std::vector<Service> loadAllServices(const char* dbPath);
-
+std::vector<Service> loadAllServices(const char* dbPath);
 
 #endif

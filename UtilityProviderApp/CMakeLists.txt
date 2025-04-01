@@ -50,6 +50,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(UtilityProviderApp
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ../src/Bill.cpp ../src/Bill.h ../src/Customer.cpp ../src/Customer.h ../src/DataLoader.cpp ../src/DataLoader.h   ../src/populateCustomer.cpp ../src/populateCustomer.h ../src/populateProvider.cpp ../src/populateProvider.h ../src/populateService.cpp ../src/populateService.h ../src/Provider.cpp ../src/Provider.h ../src/Service.cpp ../src/Service.h
+
     )
 else()
     if(ANDROID)

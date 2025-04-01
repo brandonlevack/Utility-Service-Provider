@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "TableModifier.h"
+#include "../src/populateCustomer.h"
 #include "CustomerPage.h"
 #include "ProviderPage.h"
 #include "../src/Service.h"
@@ -42,8 +43,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     c.addService(s2);
     c.billCustomer();
 
-    QTableWidget* customerTable = CustomerPage::createTable(new std::vector<Customer>{c});
+    std::vector<Customer> customers = populateCustomer("newfile.db");
 
+    QTableWidget* customerTable = CustomerPage::createTable(&customers);
 
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();
