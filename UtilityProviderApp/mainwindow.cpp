@@ -25,21 +25,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QVBoxLayout* layout1 = new QVBoxLayout(customerPage);
     layout1->addWidget(new QLabel("This is the customer page"));
 
-
-    // QTableWidget* customerTable = new QTableWidget(this);
-
-    // TableModifier::initTable(customerTable, CustomerPage::customerHeaders);
-    std::vector<std::string> testCustomer = {
-        "John",
-        "Doe",
-        "123456",
-        "123 Main Street",
-        "Windsor",
-        "Ontario",
-        "A1B2C3",
-        "Canada"
-    };
-
     Customer c;
     c.setFirstName("John");
     c.setLastName("James");
@@ -57,12 +42,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     c.addService(s2);
     c.billCustomer();
 
-
-
     QTableWidget* customerTable = CustomerPage::createTable(new std::vector<Customer>{c});
 
 
-    // TableModifier::addRow(customerTable, testCustomer, &c);
     connect(customerTable, &QTableWidget::cellDoubleClicked, [this, customerTable](int row, int column){
         QString accountNumber = customerTable->item(row, 2)->text();
 
