@@ -39,6 +39,9 @@ CREATE TABLE customers (
     customer_id INTEGER NOT NULL,
     name VARCHAR(100),
     address VARCHAR(100),
+    city VARCHAR(100),
+    province VARCHAR(100),
+    postal code VARCHAR(100),
     service VARCHAR(100),
     PRIMARY KEY (customer_id)
 );
