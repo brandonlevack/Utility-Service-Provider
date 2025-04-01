@@ -195,8 +195,7 @@ public:
                         std::to_string(serviceId) + ", " + 
                         std::to_string(providerId) + ", '" + 
                         status + "', " + 
-                        std::to_string(usageAmount) + ", '" + 
-                        "35.4" + "');");
+                        std::to_string(usageAmount) + ");");
                 }
             }
         }
