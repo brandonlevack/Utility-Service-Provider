@@ -13,6 +13,30 @@ private:
     sqlite3* db;
     std::mt19937 gen{std::random_device{}()};
 
+    const std::vector<std::string> provinces = {
+        "ON", "BC", "AB", "MB", "NB", "NL", "NS", "PE", "QC", "SK"
+    };
+
+    const std::vector<std::string> cities = {
+        "Toronto", "Vancouver", "Calgary", "Montreal", "Halifax",
+        "Ottawa", "Edmonton", "Winnipeg", "Victoria", "Regina",
+        "Saskatoon", "Quebec City", "St. John's", "Fredericton"
+    };
+
+    std::string generatePostalCode() {
+        static const char letters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        static const char numbers[] = "0123456789";
+        std::string postalCode;
+        postalCode += letters[rand() % 26];
+        postalCode += numbers[rand() % 10];
+        postalCode += letters[rand() % 26];
+        postalCode += ' ';
+        postalCode += numbers[rand() % 10];
+        postalCode += letters[rand() % 26];
+        postalCode += numbers[rand() % 10];
+        return postalCode;
+    }
+
     const std::vector<std::string> providerNames = {
         "PowerCo", "GasWorks", "WaterCorp", "InternetPlus", "EnergyFirst",
         "UtilityPro", "ConnectAll", "EcoUtilities", "SmartPower", "CityServices"
