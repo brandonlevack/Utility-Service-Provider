@@ -22,13 +22,13 @@ int customerCallback(void* data, int argc, char** argv, char** azColName) {
     customer.setStreetAddress(argv[2]);
 
     //sets city
-    customer.setCity(argv[4]);
+    customer.setCity(argv[3]);
 
     //sets province
-    customer.setProvince(argv[5]);
+    customer.setProvince(argv[4]);
         
     //sets postal code
-    customer.setPostalCode(argv[6]);
+    customer.setPostalCode(argv[5]);
     
     //adds customer to vector
     customers->push_back(customer);
@@ -47,7 +47,7 @@ std::vector<Customer> populateCustomer(const char* dbPath) {
     }
 
     //sql statement
-    const char* sql = "SELECT customer_id, name, address, service, city, province, postalcode FROM customers;";
+    const char* sql = "SELECT customer_id, name, address, city, province, postalcode, service FROM customers;";
     int rc = sqlite3_exec(db, sql, customerCallback, &customers, &errMsg);
 
     //sql statment execution error checking
