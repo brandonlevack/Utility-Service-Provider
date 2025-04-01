@@ -72,7 +72,6 @@ CREATE TABLE bills (
     provider_id INTEGER NOT NULL,
     status VARCHAR(20) DEFAULT 'unpaid', 
     used Integer,
-    total DECIMAL(10,2) NOT NULL,
     PRIMARY KEY(bill_id),
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
     FOREIGN KEY (service_id) REFERENCES services(service_id),
