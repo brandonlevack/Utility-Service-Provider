@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     customers = populateCustomer("newfile.db");
 
-    customers.push_back(c);
+    customers.insert(customers.begin(), c);
 
     QTableWidget* customerTable = CustomerPage::createTable(&customers);
 
@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     providers = populateProvider("newfile.db");
 
-    providers.push_back(p);
+    providers.insert(providers.begin(), p);
 
     QTableWidget* providerTable = ProviderPage::createTable(&providers);
     connect(providerTable, &QTableWidget::cellDoubleClicked, [this, providerTable](int row, int column){
