@@ -26,7 +26,7 @@ static int customerCallback(void* data, int argc, char** argv, char** azColName)
     return 0;
 }
 
-std::vector<Customer> populateCustomers(const char* dbPath) {
+std::vector<Customer> populateCustomer(const char* dbPath) {
     std::vector<Customer> customers;
     sqlite3* db;
     char* errMsg = nullptr;
