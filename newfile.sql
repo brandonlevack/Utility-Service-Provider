@@ -41,7 +41,7 @@ CREATE TABLE customers (
     address VARCHAR(100),
     city VARCHAR(100),
     province VARCHAR(100),
-    postal code VARCHAR(100),
+    postalcode VARCHAR(100),
     service VARCHAR(100),
     PRIMARY KEY (customer_id)
 );
