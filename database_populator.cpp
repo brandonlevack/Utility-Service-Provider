@@ -134,12 +134,17 @@ public:
                 "Birch Boulevard", "Willow Way", "Spruce Street", "Ash Avenue", "Poplar Lane"
             };
             
-            int streetNumber = 100 + (rand() % 900); // Generates number between 100-999
-            std::string address = std::to_string(streetNumber) + " " + 
-                                streetNames[rand() % streetNames.size()];
+            int streetNumber = 100 + (rand() % 900);
+            std::string street = streetNames[rand() % streetNames.size()];
+            std::string city = cities[rand() % cities.size()];
+            std::string province = provinces[rand() % provinces.size()];
+            std::string postalCode = generatePostalCode();
+            
+            std::string streetAddress = std::to_string(streetNumber) + " " + street;
                                 
             executeSQL("INSERT INTO customers VALUES (" + std::to_string(i+1) + 
-                ", '" + customerNames[i] + "', '" + address + "', 'TempService" + "');");
+                ", '" + customerNames[i] + "', '" + streetAddress + "', '" + 
+                city + "', '" + province + "', '" + postalCode + "', 'TempService" + "');");
         }
 
         // Populate services
